@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="en-us">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Extracts information on the winning creative via js</title>
+    <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+
+    <script>
+        googletag.cmd.push(function() {
+            googletag.defineSlot('/46362926/test_slot1', [240, 400], 'div-gpt-ad-1485099531634-0').addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+
+    <script>
+        googletag.cmd.push(function() {
+            googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+                var infoChunks = [];
+                if (!event.isEmpty) {
+                    var slotId = event.slot.getSlotElementId();
+                    var iframe = document.querySelector('#' + slotId + ' iframe');
+                    var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    var img = iframeDoc.querySelector('img');
+                    if (img && img.alt) {
+                        infoChunks.push('Got alt: ' + img.alt);
+                    }
+                    if (event.creativeId) {
+                        infoChunks.push('Got creative id: ' + event.creativeId);
+                    }
+                    if (event.labelIds && event.labelIds.length) {
+                        infoChunks.push('Got labelIds: ' + even.labelIds.join(','));
+                    }
+                } else {
+                    infoChunks.push('No winning creative');
+                }
+                document.querySelector('#metadata').innerHTML = infoChunks.join('<br>');
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- /46362926/test_slot1 -->
+    <div id='div-gpt-ad-1485099531634-0' style='height:400px; width:240px;'>
+        <script>
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1485099531634-0'); });
+        </script>
+    </div>
+    <h1>Discovered metadata</h1>
+    <div id="metadata">
+    </div>
+</body
+</html>

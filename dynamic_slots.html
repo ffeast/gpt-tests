@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html lang="en-us">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Dynamic slots</title>
+    <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+
+    <script>
+        googletag.cmd.push(function() {
+            googletag.defineSlot('/46362926/test_slot1', [240, 400], 'slot-initial').addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            // Disable initial load, we will use refresh() to fetch ads.
+            // Calling this function means that display() calls just
+            // register the slot as ready, but do not fetch ads for it.
+            googletag.pubads().disableInitialLoad();
+            googletag.enableServices();
+        });
+    </script>
+
+    <script>
+        (function() {
+            var slotId = 1;
+            function addNewSlot() {
+                // add a div containing the dynamic ad
+                var label = document.createElement('h1');
+                label.innerHTML = 'Dynamic slot #' + slotId;
+                document.body.appendChild(label);
+                var container = document.createElement('div');
+                container.id = 'slot-' + slotId;
+                document.body.appendChild(container);
+
+                // dynamic slot creation
+                googletag.cmd.push(function() {
+                    var slot = googletag.defineSlot('/46362926/test_slot1', [240, 400], container.id).addService(googletag.pubads());
+                    googletag.cmd.push(function() { googletag.display(container.id); googletag.pubads().refresh([slot]); });
+                });
+
+                slotId++;
+            };
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelector('input[type="button"]').addEventListener('click', addNewSlot);
+            });
+
+        })();
+    </script>
+</head>
+
+<body>
+    <h1>This is the slot originally available on the page</h1>
+    <div id='slot-initial' style='height:400px; width:240px;'>
+        <script>
+            googletag.cmd.push(function() { googletag.display('slot-initial'); googletag.pubads().refresh(); });
+        </script>
+    </div>
+    <p>
+        <input type="button" value="Add a dynamic slot">
+    </p>
+</body
+</html>
